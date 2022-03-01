@@ -31,3 +31,22 @@ Common docker commands:
 - `docker run -d -p 80:2368 ghost`
 - `docker run -d -p 4000:4000 docs/docker.github.io`
 - `docker logs ID` will give you the log on the container. This can be used for debugging.
+
+# Docker part 2
+- `alias docker="winpty docker"` - sets an alias
+- `docker exec -it ID sh` - will ssh into the container
+- `cd /usr/share/nginx/html` - In nginx container, to go to html setting this is the path
+- `update and upgrade`
+- `apt-get install nano`
+You can now edit the html script for the page
+
+#### Hosting static website with Nginx using Docker
+-  copy the index.html from localhost to default location of nginx
+-  `cd /usr/share/nginx/html/`
+-  `docker cp file.html container_ID:/usr/share/nginx/html/file.html` - THis command will copy a file from local host to the container 
+
+In order to push a container to docker hub we need to:
+- create an image from a container `docker run -d -p 80:80 nginx` and `docker cp file.html container_ID:/usr/share/nginx/html/file.html`
+- The image ID can be seen using `docker images`
+-  `docker tag container_ID fredericoco121/docker_eng103a` to tag it, this defaults to latest version 
+-  `docker push fredericoco121/docker_eng103a` to push it
