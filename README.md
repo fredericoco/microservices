@@ -14,7 +14,7 @@ In order to get a container, which is something we need to use in order to host 
 If the application requires a port, the command needed is `docker run -d -p Port_1:Port_2 Name_of_container`.The `-d` means that it is in detached mode, meaning that you can continue to use the terminal when you are finished. The first port is the one you are mapping your localhost to, the second port is the port that the docker image is listening on. We did this example with ghost and nginx, so the commands would be
 ![why docker](https://user-images.githubusercontent.com/39882040/156179107-7690cbc4-480d-48a6-94e7-386dededd412.PNG)
 
-The diagram above shows the basics of how docker works. A client will pull an image from a registry, if it isn't alreadly on the system.
+The diagram above shows the basics of how docker works. A client will pull an image from a registry, if it isn't already on the system. If it's already on the system it will create a new container of it.
 
 Common docker commands:
 - `docker push` - Used to push an image or a repository to a registry
@@ -53,3 +53,28 @@ In order to push a container to docker hub we need to:
 - The image ID can be seen using `docker images`
 -  `docker tag container_ID fredericoco121/docker_eng103a` to tag it, this defaults to latest version 
 -  `docker push fredericoco121/docker_eng103a` to push it
+-  Now anyone could run `docker run -d -p 80:80 fredericoco121/docker_eng103a:latest` to run the image we've created.
+
+## Automating the process
+We've created a Dockerfile which automates what we've just done. In the docker file we need the commands below:
+
+```
+# from which image - image we used as our base image Nginx
+FROM nginx 
+
+# label to communicate with team members
+LABEL MAINTAINER=FJOHNSON@SPARTAGLOBAL.COM
+
+# copy data from localhost to container
+COPY index.html /usr/share/nginx/html
+
+# expose port 80
+EXPOSE 80
+
+# launch/create a container
+CMD ["nginx", "-g","daemon off;"]
+```
+Now you can `docker build -t fredericoco121/eng103a`
+Now we run it`docker run -d -p 40:80 fredericoco121/eng103a`
+This should now work and a website should be up
+Now push it to docker hub `docker push fredericoco121/eng103a`
