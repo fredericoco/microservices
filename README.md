@@ -12,7 +12,7 @@ In order to set up docker on your computer, you need to follow these steps:
 In order to get a container, which is something we need to use in order to host websites or run applications we need to run an application to get a container from an image first. In order to do this we run `docker run Name_of_container`, if it isn't on the system then it will retrieve it from docker hub. We did this with `hello-world`.
 
 If the application requires a port, the command needed is `docker run -d -p Port_1:Port_2 Name_of_container`.The `-d` means that it is in detached mode, meaning that you can continue to use the terminal when you are finished. The first port is the one you are mapping your localhost to, the second port is the port that the docker image is listening on. We did this example with ghost and nginx, so the commands would be
-
+![why docker](https://user-images.githubusercontent.com/39882040/156179107-7690cbc4-480d-48a6-94e7-386dededd412.PNG)
 Common docker commands:
 - `docker push` - Used to push an image or a repository to a registry
 - `docker pull` - Used to pull images from the docker repository
