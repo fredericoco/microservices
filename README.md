@@ -74,7 +74,7 @@ EXPOSE 80
 # launch/create a container
 CMD ["nginx", "-g","daemon off;"]
 ```
-Now you can `docker build -t fredericoco121/eng103a`
+Now you can `docker build -t fredericoco121/eng103a .`
 Now we run it`docker run -d -p 40:80 fredericoco121/eng103a`
 This should now work and a website should be up
 Now push it to docker hub `docker push fredericoco121/eng103a`
@@ -104,3 +104,43 @@ CMD ["node", "app.js"]
 - `RUN npm install` This runs npm install
 - `EXPOSE 3000` This exposes port 3000
 - `CMD ["node", "app.js"]` This runs the two commands `node` and `app.js`
+
+## Docker part 3
+- build production ready - Multi-stage build
+- current image is in working state
+- listening on required port (EXPOSE 3000)
+- copy app folder
+- npm install
+- npm install express
+- CMD [node,app.js]
+- `localhost:3000` displays node app home page
+- add production ready layer
+- find the slimmer/smaller size of image to use `docker hub`
+- create alias for our base image to use with next stage
+- --from=app path of WRKDIR PATH:new image WORKDIR
+- size `105gb` to `250mb` approx
+
+```
+FROM node:latest as APP
+
+WORKDIR /usr/src/app/
+
+COPY app /usr/src/app/
+
+RUN npm install
+
+FROM node:alpine
+
+COPY --from=APP /usr/src/app/ /usr/src/app
+
+WORKDIR /usr/src/app/
+
+EXPOSE 3000
+
+CMD ["node", "app.js"]
+```
+
+### Downloading from a container to localhost
+If you are running a command which launchs a foreign container, and you want to get this data onto your localhost the command you need is:
+- `docker cp container_ID:/path_to_WORKDIR path_to_where_you_want_to_place_content`
+- In our case the command was `docker cp 683a15351e70:/usr/src/app .`, where the workdir is the same as in the Dockerfile and the fullstop just puts in in the area it was executed. If you build and run with the new content there should be a different localhost page.
