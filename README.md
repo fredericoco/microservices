@@ -14,7 +14,7 @@ In order to get a container, which is something we need to use in order to host 
 If the application requires a port, the command needed is `docker run -d -p Port_1:Port_2 Name_of_container`.The `-d` means that it is in detached mode, meaning that you can continue to use the terminal when you are finished. The first port is the one you are mapping your localhost to, the second port is the port that the docker image is listening on. We did this example with ghost and nginx, so the commands would be
 ![why docker](https://user-images.githubusercontent.com/39882040/156179107-7690cbc4-480d-48a6-94e7-386dededd412.PNG)
 
-The diagram above shows the basics of how docker works. A client will pull an image from a registry, if it isn't already on the system. If it's already on the system it will create a new container of it.
+The diagram above shows the basics of how docker works.Using `docker run` a client will pull an image from a registry, if it isn't already on the system and create an image of it. If it's already on the system it will create a new container of it. `docker pull` will just pull an image. `docker push` will push an image or container to docker hub.
 
 Common docker commands:
 - `docker push` - Used to push an image or a repository to a registry
