@@ -26,5 +26,7 @@ To deal with this issue and the new scaling issue, Airbnb transitioned to a usin
 https://www.altoros.com/blog/airbnb-deploys-125000-times-per-year-with-multicluster-kubernetes/
 
 ### K8 diagram
+![kubernetes_architecture_diagram_explained](https://user-images.githubusercontent.com/39882040/156428941-c05497d4-e981-42ff-8dd4-68abdda6a755.png)
+
 ### What is self healing with K8
 ### K8 roll back - how to use it
