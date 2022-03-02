@@ -144,3 +144,62 @@ CMD ["node", "app.js"]
 If you are running a command which launchs a foreign container, and you want to get this data onto your localhost the command you need is:
 - `docker cp container_ID:/path_to_WORKDIR path_to_where_you_want_to_place_content`
 - In our case the command was `docker cp 683a15351e70:/usr/src/app .`, where the workdir is the same as in the Dockerfile and the fullstop just puts in in the area it was executed. If you build and run with the new content there should be a different localhost page.
+
+### Docker compose and DB
+In order to access another container so that we can access posts, we need to create a docker compose file. This docker compose file is a .yml file.
+
+The steps we did to get the posts directory to work were:
+- `docker pull mongo` to pull the image from docker hub
+- `docker image` to see if the docker image
+- `docker compose up -d` to execute the docker compose file. This does it in detached mode. remove the d for troubleshooting. The docker compose file is below.
+```
+version: "3"
+
+services: 
+
+  mongo:
+
+    image: mongo
+
+    container_name: mongo
+
+ #   restart: always
+
+    volumes:
+
+      - ./mongod.conf:/etc/mongod.conf
+
+     # - ./logs:/var/log/mongod/
+
+     # - ./db:/var/lib/mongodb
+
+      #- ./mongod.service:/lib/systemd/system/mongod.service
+
+    ports:
+
+      - "27017:27017"
+
+
+
+  app:
+
+    container_name: small_app_update
+
+    restart: always
+
+    build: ./app
+
+    ports:
+
+      - "3000:3000"
+
+    links:
+
+      - mongo
+
+    environment: 
+
+      - DB_HOST=mongodb://mongo:27017/posts
+
+    #command: node app/seeds/seed.js
+```

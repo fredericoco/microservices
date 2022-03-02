@@ -1,0 +1,49 @@
+version: "3"
+
+services: 
+
+  mongo:
+
+    image: mongo
+
+    container_name: mongo
+
+ #   restart: always
+
+    volumes:
+
+      - ./mongod.conf:/etc/mongod.conf
+
+     # - ./logs:/var/log/mongod/
+
+     # - ./db:/var/lib/mongodb
+
+      #- ./mongod.service:/lib/systemd/system/mongod.service
+
+    ports:
+
+      - "27017:27017"
+
+
+
+  app:
+
+    container_name: small_app_update
+
+    restart: always
+
+    build: ./app
+
+    ports:
+
+      - "3000:3000"
+
+    links:
+
+      - mongo
+
+    environment: 
+
+      - DB_HOST=mongodb://mongo:27017/posts
+
+    #command: node app/seeds/seed.js
