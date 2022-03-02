@@ -24,19 +24,26 @@ services:
 
       - "27017:27017"
 
-
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/posts --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 8
 
   app:
+    depends_on:
+      mongo:
+        condition: service_healthy
 
     container_name: small_app_update
 
     restart: always
 
-    build: ./app
+    image: fredericoco121/app_posts
 
     ports:
 
-      - "3000:3000"
+      - "80:3000"
 
     links:
 
@@ -45,5 +52,3 @@ services:
     environment: 
 
       - DB_HOST=mongodb://mongo:27017/posts
-
-    #command: node app/seeds/seed.js

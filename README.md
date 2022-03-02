@@ -151,6 +151,7 @@ In order to access another container so that we can access posts, we need to cre
 The steps we did to get the posts directory to work were:
 - `docker pull mongo` to pull the image from docker hub
 - `docker image` to see if the docker image
+- Now you have to make a docker compose file. This file is going to be a yml file. See the code for how it is going to be documented.
 - `docker compose up -d` to execute the docker compose file. This does it in detached mode. remove the d for troubleshooting. The docker compose file is below.
 ```
 version: "3"
@@ -202,4 +203,82 @@ services:
       - DB_HOST=mongodb://mongo:27017/posts
 
     #command: node app/seeds/seed.js
+```
+ssh into the app and `node seeds/seed.js` if this doesn't work. Updated code below for the dockerfile and compose file
+`FROM node:latest as APP
+
+WORKDIR /usr/src/app/
+
+COPY app /usr/src/app/
+
+RUN npm install -g npm@latest
+RUN npm install express
+#RUN seeds/seed.js
+FROM node:alpine
+
+COPY --from=APP /usr/src/app/ /usr/src/app
+
+WORKDIR /usr/src/app/
+
+EXPOSE 3000
+
+CMD node seeds/seed.js && npm start``
+
+```
+yml file
+```
+version: "3"
+
+services: 
+
+  mongo:
+
+    image: mongo
+
+    container_name: mongo
+
+ #   restart: always
+
+    volumes:
+
+      - ./mongod.conf:/etc/mongod.conf
+
+     # - ./logs:/var/log/mongod/
+
+     # - ./db:/var/lib/mongodb
+
+      #- ./mongod.service:/lib/systemd/system/mongod.service
+
+    ports:
+
+      - "27017:27017"
+
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/posts --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 8
+
+  app:
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+    container_name: small_app_update
+
+    restart: always
+
+    image: fredericoco121/app_posts
+
+    ports:
+
+      - "80:3000"
+
+    links:
+
+      - mongo
+
+    environment: 
+
+      - DB_HOST=mongodb://mongo:27017/posts
 ```
