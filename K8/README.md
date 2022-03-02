@@ -27,6 +27,10 @@ https://www.altoros.com/blog/airbnb-deploys-125000-times-per-year-with-multiclus
 
 ### K8 diagram
 ![kubernetes_architecture_diagram_explained](https://user-images.githubusercontent.com/39882040/156428941-c05497d4-e981-42ff-8dd4-68abdda6a755.png)
-
+The diagram above shows the architecture of a k8 clusture.
 ### What is self healing with K8
+Self-healing is a feature provided by the Kubernetes open-source system. If a containerized app or an application component fails or goes down, Kubernetes re-deploys it to retain the desired state.
 ### K8 roll back - how to use it
+ Kubernetes has a built-in rollback mechanism. There are several strategies when it comes to deploying apps into production. In Kubernetes, rolling updates are the default strategy to update the running version of your app. The rolling update cycles previous Pod out and bring newer Pod in incrementally.
+
+ The command is `kubectl rollout undo deploy my-deployment-name -n my-namespace`.
