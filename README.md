@@ -78,3 +78,29 @@ Now you can `docker build -t fredericoco121/eng103a`
 Now we run it`docker run -d -p 40:80 fredericoco121/eng103a`
 This should now work and a website should be up
 Now push it to docker hub `docker push fredericoco121/eng103a`
+`docker exec -it ID bash` to open the terminal
+
+## Creating the app image
+The steps to create the app image using Dockerfile:
+- step 1: get a fresh version of the app from the zip file
+- step 2: move the app file to the microservices directory
+- step 3: Create a dockerfile outside of the app file, this is where we're going to work from. The code we need for this is:
+```
+FROM node:latest
+
+WORKDIR /usr/src/app
+
+COPY /app /usr/src/app
+
+RUN npm install
+
+EXPOSE 3000
+
+CMD ["node", "app.js"]
+``` 
+- The `FROM node:latest` will import the latest version of node (6 I believe)
+- `WORKDIR /usr/src/app` Sets the work directory
+- `COPY /app /usr/src/app` This copies the app file from this directory to the /usr/src/app
+- `RUN npm install` This runs npm install
+- `EXPOSE 3000` This exposes port 3000
+- `CMD ["node", "app.js"]` This runs the two commands `node` and `app.js`

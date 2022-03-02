@@ -1,14 +1,11 @@
-# from which image - image we used as our base image Nginx
-FROM nginx 
+FROM node:latest
 
-# label to communicate with team members
-LABEL MAINTAINER=FJOHNSON@SPARTAGLOBAL.COM
+WORKDIR /usr/src/app
 
-# copy data from localhost to container
-COPY index.html /usr/share/nginx/html
+COPY /app /usr/src/app
 
-# expose port 80
-EXPOSE 80
+RUN npm install
 
-# launch/create a container
-CMD ["nginx", "-g","daemon off;"]
+EXPOSE 3000
+
+CMD ["node", "app.js"]
