@@ -1,9 +1,30 @@
-# K8
-### What is K8?
+# Kubernetes
+### What is Kubernetes?
+Kubernetes (also known as K8) is used to orchestrate containerised applications to run on a cluster of hosts.The K8s system automates the deployment and management of cloud native applications using on-premises infrastructure or public cloud platforms.
 
-### Benefits 
+ It distributes application workloads across a Kubernetes cluster and automates dynamic container networking needs. Kubernetes also allocates storage and persistent volumes to running containers, provides automatic scaling, and works continuously to maintain the desired state of applications, providing resiliency. It's like ansible but for docker containers.
+
+ In order to work K8 requires one master and several worker nodes. The worker nodes will have a kubelet and kube proxy on them, this makes sure that it functions. kubectl is used to control the master node.
+### Benefits and How does it benefit the business
+The benefits of kubernetes are:
+- Portability: Containers are portable across a range of environments from virtual environments to bare metal. Kubernetes is supported in all major public clouds, as a result, you can run containerized applications on K8s across many different environments.
+  
+- Integration and extensibility: Kubernetes is extensible to work with the solutions you already rely on, including logging, monitoring, and alerting services. The Kubernetes community is working on a variety of open source solutions complementary to Kubernetes, creating a rich and fast-growing ecosystem.
+  
+- Cost efficiency: Kubernetes' inherent resource optimization, automated scaling, and flexibility to run workloads where they provide the most value means your IT spend is in your control.
+  
+- Scalability: Cloud native applications scale horizontally. Kubernetes uses “auto-scaling,” spinning up additional container instances and scaling out automatically in response to demand.
+- API-based: The fundamental fabric of Kubernetes is its REST API. Everything in the Kubernetes environment can be controlled through programming.
+
+- Simplified CI/CD: CI/CD is a DevOps practice that automates building, testing and deploying applications to production environments. Enterprises are integrating Kubernetes and CI/CD to create scalable CI/CD pipelines that adapt dynamically to load.
+  
 ### Use cases
-### How does it benefit the business
+Airbnb initially used monolith architecture on their website called Monorail. As the company grew and there were more commits to the monolith, it would spend an average of 15 hours per week being blocked due to reverts and rollbacks.
+
+To deal with this issue and the new scaling issue, Airbnb transitioned to a using kubernetes in 2017 in the cloud. Ths simplified the work of the engineers at airbnb and now it facilitates 500 implementations per day.
+
+https://www.altoros.com/blog/airbnb-deploys-125000-times-per-year-with-multicluster-kubernetes/
+
 ### K8 diagram
 ### What is self healing with K8
-## K8 roll back - how to use it
+### K8 roll back - how to use it
