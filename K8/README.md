@@ -38,3 +38,62 @@ Self-healing is a feature provided by the Kubernetes open-source system. If a co
  The command is `kubectl rollout undo deploy my-deployment-name -n my-namespace`.
 
  https://learnk8s.io/kubernetes-rollbacks
+
+ `kubectl get svc` to see clusters running
+
+ kubernetes commands:
+ - `kubectl create -f file.yml`
+
+```
+# k8 is a yml file
+# we are going to create a deployment for our nginx-image
+# we will create 3 pods with this deployment
+# kubectl get name-service - deploy/deployment - service/svc - pods
+# kubectl create -f file.yml
+# kubectl delete name-service deploy deploy-name
+
+# first word lowercase, second word bgins caps
+
+apiVersion: apps/v1
+
+kind: Deployment # pod, service replicaset ASG
+
+# metadata to name your deployment -case insensitive
+metadata:
+  name: node
+spec:
+  # labels and selectors are the communication channels between micro-services 
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: fredericoco121/docker_eng103a
+
+          ports:
+            - containerPort: 80
+
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  type: NodePort
+  selector:
+    app: nginx
+  ports:
+      # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+    - port: 80
+      targetPort: 80
+      # Optional field
+      # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
+      nodePort: 30000
+```
