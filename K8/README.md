@@ -23,6 +23,8 @@ Airbnb initially used monolith architecture on their website called Monorail. As
 
 To deal with this issue and the new scaling issue, Airbnb transitioned to a using kubernetes in 2017 in the cloud. Ths simplified the work of the engineers at airbnb and now it facilitates 500 implementations per day.
 
+Instead of commiting to one monolith and dealing with issues relating to rollback, having several clusters and thosand of nodes makes it easier to commit changes.
+
 https://www.altoros.com/blog/airbnb-deploys-125000-times-per-year-with-multicluster-kubernetes/
 
 ### K8 diagram
@@ -34,3 +36,5 @@ Self-healing is a feature provided by the Kubernetes open-source system. If a co
  Kubernetes has a built-in rollback mechanism. There are several strategies when it comes to deploying apps into production. In Kubernetes, rolling updates are the default strategy to update the running version of your app. The rolling update cycles previous Pod out and bring newer Pod in incrementally.
 
  The command is `kubectl rollout undo deploy my-deployment-name -n my-namespace`.
+
+ https://learnk8s.io/kubernetes-rollbacks
