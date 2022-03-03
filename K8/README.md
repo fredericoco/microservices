@@ -42,7 +42,10 @@ Self-healing is a feature provided by the Kubernetes open-source system. If a co
  `kubectl get svc` to see clusters running
 
  kubernetes commands:
- - `kubectl create -f file.yml`
+ - `kubectl create -f file.yml` - This command creates a resource from a yml file.
+ - `kubectl get pods` shows the status of the pods
+ - `kubectl delete all --all` deletes all the pods
+ - `kubectl get pv or pvc` gets the status of the persistant volume or persistent volume claim
 
 ```
 # k8 is a yml file
@@ -96,4 +99,129 @@ spec:
       # Optional field
       # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
       nodePort: 30000
+```
+### App and db setup
+```
+# create a mongo service that the app can reference and point to
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  labels:
+    app: mongo
+spec:
+  ports:
+  - port: 27017
+    name: http
+  selector:
+    app: mongo
+--- # indicates it's a new file
+
+# actually create the database deployment for pod
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: mongo
+spec:
+  selector:
+    matchLabels:
+      app: mongo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongovolume
+              mountPath: /data/db
+      volumes:
+        - name: mongovolume
+          persistentVolumeClaim:
+            claimName: mongo-db
+--- # indicates it's a new file
+
+# launching our application
+apiVersion: apps/v1
+
+kind: Deployment
+
+
+metadata:
+  name: app
+spec:
+  selector:
+    matchLabels:
+      app: app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app
+          image: fredericoco121/small_app_update
+          ports:
+            - containerPort: 80
+          imagePullPolicy: IfNotPresent
+          env: 
+          - name: DB_HOST
+            value: 'mongodb://mongo:27017/posts'
+--- # indicates it's a new file
+
+# create the loadbalancer for app
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: app-svc
+  name: default
+spec:
+  selector:
+    app: app
+  ports:
+  - port: 80
+    targetPort: 3000
+    nodePort: 30000
+    protocol: TCP
+  selector:
+    app: app
+  sessionAffinity: None
+  type: LoadBalancer
+```
+
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongovolume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 150Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
 ```
