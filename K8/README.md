@@ -1,4 +1,4 @@
-# Kubernetes
+# Kubernetes abc
 ### What is Kubernetes?
 Kubernetes (also known as K8) is used to orchestrate containerised applications to run on a cluster of hosts.The K8s system automates the deployment and management of cloud native applications using on-premises infrastructure or public cloud platforms.
 
@@ -197,6 +197,7 @@ spec:
   sessionAffinity: None
   type: LoadBalancer
 ```
+Setting up the persistent volume and persistent volume claim.
 
 ```
 apiVersion: v1
