@@ -226,3 +226,15 @@ spec:
     requests:
       storage: 256Mi
 ```
+## CRUD commands in kubernetes
+- `kubectl create deployment [name]` - Create deployment
+- `kubectl edit deployment [name]` - Edit deployment
+- `kubectl delete deployment [name]` - Delete deployment
+## Status of different k8s
+- `kubectl get nodes|pod|services|replicaset|deployment` used to get information about various components
+- `kubectl logs [pod name]` - Log to console
+## Debugging pods
+- `kubectl exec -it [pod name] -- bin/bash` - Get Interactive Terminal
+## Use configuration file for CRUD
+- `kubectl apply -f [file name]` - apply a configuration file
+- `kubectl delete -f [file name]` - delete with configuration file
